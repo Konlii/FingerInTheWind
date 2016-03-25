@@ -12,9 +12,11 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 @Mod( modid = FITW.MODID, name = FITW.NAME, version = FITW.VERSION )
 public class FITW {
     public static final String MODID = "fitw";
-    public static final String VERSION = "1.0";
+    public static final String VERSION = "1.2";
     public static final String NAME = "Finger in the Wind";
     public static final String CHANNEL = MODID;
+    
+    protected static int wetCooldown = 0;
 	
 	@Instance(FITW.MODID)
 	public static FITW instance;
