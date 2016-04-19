@@ -1,10 +1,13 @@
 package com.flashoverride.fitw;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 import com.bioxx.tfc.Core.TFC_Climate;
 import com.bioxx.tfc.Core.WeatherManager;
+import com.bioxx.tfc.api.TFCBlocks;
 
 public class Temperature {
 
@@ -19,6 +22,7 @@ public class Temperature {
 		Float rain = TFC_Climate.getRainfall(world, x, y, z);
 		String humidity = "";
 		String conjunction = " and ";
+		boolean isSpring = false;
 		
 		if (rain<250) humidity = "very dry";
 		else if (rain<500) humidity = "dry";
@@ -52,13 +56,33 @@ public class Temperature {
 		else if (temp<45) fuzzyTemp = "very hot";
 		else fuzzyTemp = "burning hot";
 
-		if (player.isInWater()) FITW.wetCooldown = 40;
-	
+		if (player.isInWater())
+		{
+			FITW.wetCooldown = 40;
+		}
+		
 		if (player.isBurning()) return "The air is filled with smoke and the stench of burning flesh";
 		else if (FITW.wetCooldown > 0)
 		{
+			int blockX = MathHelper.floor_double(player.posX);
+		    int blockY = MathHelper.floor_double(player.boundingBox.maxY);
+		    int blockZ = MathHelper.floor_double(player.posZ);
+		    Block block;
+		    
+		    	while (blockY >= MathHelper.floor_double(player.boundingBox.minY)-1)
+		    	{
+		    		block = world.getBlock(blockX, blockY, blockZ);
+		    		
+		    		if (block.equals(TFCBlocks.hotWater) || block.equals(TFCBlocks.hotWaterStationary))
+		    		{
+		    			isSpring = true;
+		    		}
+		    		--blockY;
+		    	}
+		    
 			FITW.wetCooldown -= 1;
-			return "The water feels " + fuzzyTemp;
+			if (isSpring) return "The water feels rejuvenating";
+			else return "The water feels " + fuzzyTemp;
 		}
 		else return "The air feels " + fuzzyTemp + conjunction + humidity;
 	}
