@@ -12,7 +12,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 @Mod( modid = FITW.MODID, name = FITW.NAME, version = FITW.VERSION )
 public class FITW {
     public static final String MODID = "fitw";
-    public static final String VERSION = "1.2";
+    public static final String VERSION = "1.2.1";
     public static final String NAME = "Finger in the Wind";
     public static final String CHANNEL = MODID;
     
@@ -34,8 +34,4 @@ public class FITW {
 	public static void postInit( FMLPostInitializationEvent event ) {
 		MinecraftForge.EVENT_BUS.register(new FITWGUI(Minecraft.getMinecraft()));
 	}
-    
-    
-    
-    
 }
